@@ -1,10 +1,10 @@
 from setuptools import find_packages, setup
 
 setup(
-    name="syncmaster-core",  # Package name
+    name="syncmaster-commons",  # Package name
     version="0.0.1",    # Initial version
     author="nakulben",
-    author_email="nakul@attention.sh",
+    author_email="tech@jinacode.systems",
     description="A core library for syncmaster.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
