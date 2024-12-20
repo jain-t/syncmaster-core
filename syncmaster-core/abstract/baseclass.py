@@ -1,7 +1,7 @@
 from typing import override
-from pydantic import BaseModel
 
 from abstract.enforcers import EnforceDocStringBaseClass
+from pydantic import BaseModel
 
 
 class SMBaseClass(BaseModel, metaclass=EnforceDocStringBaseClass):
@@ -48,10 +48,28 @@ class ThirdPartyPayload(SMBaseClass):
     
     @property
     def app_name(self) -> str:
+        """
+        Returns the name of the application.
+
+        This method should be implemented by subclasses to provide the
+        specific name of the application.
+
+        Raises:
+            NotImplementedError: If the method is not implemented by a subclass.
+        """
         raise NotImplementedError("Method app_name is not implemented.")
     
     @override
     def to_dict(self):
-        dict__ = super().to_dict()
-        dict__["app_name"] = self.app_name
-        return dict__
+        """
+        Convert the object to a dictionary representation.
+
+        This method overrides the `to_dict` method from the superclass to include
+        the `app_name` attribute in the dictionary representation.
+
+        Returns:
+            dict: A dictionary containing the object's data, including the `app_name` attribute.
+        """
+        _d_ = super().to_dict()
+        _d_["app_name"] = self.app_name
+        return _d_

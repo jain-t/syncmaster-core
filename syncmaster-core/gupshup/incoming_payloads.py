@@ -1,7 +1,7 @@
 from typing import Optional, Union
 
-
 from abstract.baseclass import SMBaseClass
+from pydantic import Field
 
 
 class _ImagePayLoad(SMBaseClass):
@@ -239,7 +239,7 @@ class IncomingPayLoad(SMBaseClass):
     timestamp: int
     is_dummy: bool = False
     _is_processed: bool = False
-    payload: _PayLoad
+    payload: _PayLoad = Field(..., description="The payload data.")
 
     @classmethod
     def from_dict(cls, payload_dict: dict) -> "IncomingPayLoad":
@@ -250,7 +250,7 @@ class IncomingPayLoad(SMBaseClass):
         Returns:
             PayLoad: The PayLoad object created from the dictionary.
         """
-        payload = _PayLoad.from_dict(payload_dict)
+        payload:_PayLoad = _PayLoad.from_dict(payload_dict)
         app = payload_dict["app"]
         timestamp = payload_dict["timestamp"]
         is_dummy = payload_dict.get("is_dummy", False)
