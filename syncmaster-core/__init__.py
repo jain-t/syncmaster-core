@@ -1,4 +1,4 @@
-__version__ = "0.1.0"
+__version__ = "0.0.1"
 
 from .agents import AgentRequestPayload
 from .gupshup import IncomingPayLoad

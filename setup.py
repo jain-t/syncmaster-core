@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="syncmaster-core",  # Package name
-    version="0.1.0",    # Initial version
+    version="0.0.1",    # Initial version
     author="nakulben",
     author_email="nakul@attention.sh",
     description="A core library for syncmaster.",
