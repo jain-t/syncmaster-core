@@ -1,7 +1,8 @@
 from typing import Optional, Union
 
-from abstract.baseclass import SMBaseClass
 from pydantic import Field
+
+from syncmaster_commons.abstract.baseclass import SMBaseClass
 
 
 class _RootMessagePayloadGupshup(SMBaseClass):

@@ -21,6 +21,34 @@ class AgentRequestPayload(SMBaseClass):
     """
     payload: Union[ThirdPartyPayload,Any]
 
+    @property
+    def org_id(self) -> int:
+        """
+        Returns the organization id.
+        """
+        return self.payload.org_id
+    
+    @property
+    def user_id(self) -> str:
+        """
+        Returns the user id.
+        """
+        return self.payload.user_id
+    
+    @property
+    def task_id(self) -> int:
+        """
+        Returns the task id.
+        """
+        return self.payload.task_id
+    
+    @property
+    def org_name(self) -> str:
+        """
+        Returns the organization name.
+        """
+        return self.payload.org_name
+
 
     @classmethod
     def from_dict(cls,request_payload: dict, client:str = None) -> "AgentRequestPayload":

@@ -1,10 +1,29 @@
 from typing import Optional, Union
 
-from abstract.baseclass import SMBaseClass
 from pydantic import Field
 
+from syncmaster_commons.abstract.baseclass import SMBaseClass
 
-class _ImagePayLoad(SMBaseClass):
+
+class _RootMessagePayloadGupshup(SMBaseClass):
+    """
+    A class representing the root message payload for Gupshup.
+
+    This class inherits from `SMBaseClass` and provides a property to get the type of the payload.
+
+    Attributes:
+        payload_type (str): A property that should return the type of the payload. This method must be implemented by subclasses.
+
+    Methods:
+        payload_type: Raises NotImplementedError if not implemented in a subclass.
+    """
+
+    @property
+    def payload_type(self) -> str:
+        """Returns the type of the payload."""
+        raise NotImplementedError("Method payload_type is not implemented.")
+
+class ImagePayLoad(_RootMessagePayloadGupshup):
     """_ImagePayLoad is a class responsible handling image payloads for the Gupshup API."""
 
     url: str
@@ -13,8 +32,13 @@ class _ImagePayLoad(SMBaseClass):
     urlExpiry: str
     is_expired: bool = False
 
+    @property
+    def payload_type(self) -> str:
+        """Returns the type of the payload."""
+        return "image"
+
     @classmethod
-    def from_dict(cls, image_dict: dict) -> "_ImagePayLoad":
+    def from_dict(cls, image_dict: dict) -> "ImagePayLoad":
         """
         Creates a _ImagePayLoad object from a dictionary.
         Args:
@@ -31,13 +55,18 @@ class _ImagePayLoad(SMBaseClass):
         )
 
 
-class _TextPayLoad(SMBaseClass):
+class TextPayLoad(_RootMessagePayloadGupshup):
     """_TextPayLoad is a class responsible handling text payloads for the Gupshup API."""
 
     text: str
 
+    @property
+    def payload_type(self) -> str:
+        """Returns the type of the payload."""
+        return "text"
+
     @classmethod
-    def from_dict(cls, text_dict: dict) -> "_TextPayLoad":
+    def from_dict(cls, text_dict: dict) -> "TextPayLoad":
         """
         Creates a _TextPayLoad object from a dictionary.
         Args:
@@ -85,8 +114,13 @@ class _MessagePayLoad(SMBaseClass):
 
     id: str
     source: str
-    payload: Union[_ImagePayLoad, _TextPayLoad]
+    payload: Union[ImagePayLoad, TextPayLoad]
     sender: _Sender
+
+    @property
+    def payload_type(self) -> str:
+        """Returns the type of the payload."""
+        return self.payload.payload_type
 
     @classmethod
     def from_dict(cls, payload_dict: dict) -> "_MessagePayLoad":
@@ -99,9 +133,9 @@ class _MessagePayLoad(SMBaseClass):
         """
         sender = _Sender.from_dict(payload_dict["sender"])
         if payload_dict["type"] == "image":
-            payload = _ImagePayLoad.from_dict(payload_dict["payload"])
+            payload = ImagePayLoad.from_dict(payload_dict["payload"])
         elif payload_dict["type"] == "text":
-            payload = _TextPayLoad.from_dict(payload_dict["payload"])
+            payload = TextPayLoad.from_dict(payload_dict["payload"])
         else:
             raise NotImplementedError(
                 f"Payload type {payload_dict['payload']['type']} not supported."

@@ -1,6 +1,6 @@
 from typing import override  # type: ignore
 
-from abstract.baseclass import SMBaseClass
+from syncmaster_commons.abstract.baseclass import SMBaseClass
 
 # https://docs.gupshup.io/docs/whatsapp-message-type-outbound-free-form
 
