@@ -48,6 +48,13 @@ class AgentRequestPayload(SMBaseClass):
         Returns the organization name.
         """
         return self.payload.org_name
+    
+    @property
+    def messages(self) -> str:
+        """
+        Returns the message.
+        """
+        return self.payload.payload.get("messages", None)
 
 
     @classmethod

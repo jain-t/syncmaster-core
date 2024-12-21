@@ -34,20 +34,37 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayload):
         return self._incoming_payload.payload.payload.payload_type
     
     @property
-    def payload(self) -> dict:
+    def _payload(self) -> dict:
         """
-        Constructs and returns the payload as a dictionary.
-
-        This property retrieves the payload from the nested `_incoming_payload` attribute,
-        converts it to a dictionary, and adds the `payload_type` to the dictionary.
-
+        Constructs and returns the payload dictionary.
+        This method retrieves the payload from the incoming payload object,
+        converts it to a dictionary, and adds the payload type to the dictionary.
         Returns:
-            dict: The payload dictionary with an additional `payload_type` key.
+            dict: The payload dictionary with an added payload type.
         """
+       
         payload = self._incoming_payload.payload.payload.payload
         output_dict = payload.to_dict() 
         output_dict["payload_type"] = self._payload_type
         return output_dict
+    
+    @property
+    def payload(self) -> dict:
+        """
+        Generates the payload dictionary based on the payload type.
+
+        Returns:
+            dict: The payload dictionary.
+
+        Raises:
+            NotImplementedError: If the payload type is not supported.
+        """
+        if self._payload_type == "text":
+            #payload["messages"] = ("user", payload["messages"])
+            self._payload["messages"] = ("user", self._payload["text"])
+        else:
+            raise NotImplementedError(f"Payload type '{self._payload_type}' is not supported.")
+        return self._payload    
         
 
 

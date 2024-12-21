@@ -80,6 +80,19 @@ class ThirdPartyPayload(SMBaseClass):
         raise NotImplementedError("Method _payload_type is not implemented.")
     
     @property
+    def _payload(self):
+        """
+        Returns the payload data.
+
+        This method should be implemented by subclasses to provide the
+        specific payload data.
+
+        Raises:
+            NotImplementedError: If the method is not implemented by a subclass.
+        """
+        raise NotImplementedError("Method _payload is not implemented.")
+    
+    @property
     def payload(self):
         """
         Returns the payload data.
