@@ -1,20 +1,30 @@
 from abstract.baseclass import ThirdPartyPayload
 
+from syncmaster_commons.gupshup.incoming_payloads import IncomingPayLoad
+
 
 class _AgentRequestPayloadGupshup(ThirdPartyPayload):
     """
     AgentRequestPayload is a pydantic model for the agent request payload.
 
     """    
-    incoming_payload: dict
-    task_id: int
-    user_id: str
-    org_id: int
-
+    _incoming_payload: IncomingPayLoad
+    
     @property
     def app_name(self) -> str:
         return 'gupshup'
     
+    @property
+    def payload_type(self) -> str:
+        return self._incoming_payload.payload.payload.payload_type
+    
+    @property
+    def payload(self) -> dict:
+        payload = self._incoming_payload.payload.payload.payload
+        output_dict = payload.to_dict()
+        output_dict["payload_type"] = self.payload_type
+        return output_dict
+        
 
 
     @classmethod
@@ -27,7 +37,7 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayload):
             AgentRequestPayload: The AgentRequestPayload object created from the dictionary.
         """
         return cls(
-            incoming_payload=payload_dict["incoming_payload"],
+            _incoming_payload=payload_dict["incoming_payload"],
             task_id=payload_dict["task_id"],
             user_id=payload_dict["user_id"],
             org_id=payload_dict["org_id"],

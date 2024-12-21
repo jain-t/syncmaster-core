@@ -1,7 +1,8 @@
 from typing import override
 
-from abstract.enforcers import EnforceDocStringBaseClass
 from pydantic import BaseModel
+
+from syncmaster_commons.abstract.enforcers import EnforceDocStringBaseClass
 
 
 class SMBaseClass(BaseModel, metaclass=EnforceDocStringBaseClass):

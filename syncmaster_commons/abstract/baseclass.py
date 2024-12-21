@@ -1,7 +1,8 @@
 from typing import override
 
-from abstract.enforcers import EnforceDocStringBaseClass
 from pydantic import BaseModel
+
+from syncmaster_commons.abstract.enforcers import EnforceDocStringBaseClass
 
 
 class SMBaseClass(BaseModel, metaclass=EnforceDocStringBaseClass):
@@ -45,6 +46,10 @@ class ThirdPartyPayload(SMBaseClass):
     ThirdPartyPayload is a pydantic model for the third party payload.
 
     """
+    task_id: int
+    user_id: str
+    org_id: int
+
     
     @property
     def app_name(self) -> str:
@@ -58,6 +63,19 @@ class ThirdPartyPayload(SMBaseClass):
             NotImplementedError: If the method is not implemented by a subclass.
         """
         raise NotImplementedError("Method app_name is not implemented.")
+    
+    @property
+    def payload(self):
+        """
+        Returns the payload data.
+
+        This method should be implemented by subclasses to provide the
+        specific payload data.
+
+        Raises:
+            NotImplementedError: If the method is not implemented by a subclass.
+        """
+        raise NotImplementedError("Method payload is not implemented.")
     
     @override
     def to_dict(self):
