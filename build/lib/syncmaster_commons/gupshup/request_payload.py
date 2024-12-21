@@ -1,7 +1,4 @@
-from typing import Tuple, Union
-
-from abstract.baseclass import ThirdPartyPayload
-
+from syncmaster_commons.abstract.baseclass import ThirdPartyPayload
 from syncmaster_commons.gupshup.incoming_payloads import IncomingPayLoad
 
 
