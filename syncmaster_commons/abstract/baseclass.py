@@ -44,8 +44,17 @@ class SMBaseClass(BaseModel, metaclass=EnforceDocStringBaseClass):
 
 class ThirdPartyPayload(SMBaseClass):
     """
-    ThirdPartyPayload is a pydantic model for the third party payload.
-
+    ThirdPartyPayload is an abstract base class that represents a payload from a third-party application.
+    Attributes:
+        task_id (int): The ID of the task.
+        user_id (str): The ID of the user.
+        org_id (int): The ID of the organization.
+        org_name (str): The name of the organization.
+    Property:
+        app_name (str): Abstract property that should return the name of the application.
+        _payload_type (str): Abstract property that should return the type of the payload.
+        payload: Abstract property that should return the payload data.
+        to_dict (dict): Converts the object to a dictionary representation, including the `app_name` attribute.
     """
     task_id: int
     user_id: str
@@ -78,19 +87,6 @@ class ThirdPartyPayload(SMBaseClass):
             NotImplementedError: If the method is not implemented by a subclass.
         """
         raise NotImplementedError("Method _payload_type is not implemented.")
-    
-    @property
-    def _payload(self):
-        """
-        Returns the payload data.
-
-        This method should be implemented by subclasses to provide the
-        specific payload data.
-
-        Raises:
-            NotImplementedError: If the method is not implemented by a subclass.
-        """
-        raise NotImplementedError("Method _payload is not implemented.")
     
     @property
     def payload(self):

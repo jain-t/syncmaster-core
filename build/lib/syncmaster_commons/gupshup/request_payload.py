@@ -1,3 +1,5 @@
+from typing import Tuple, Union
+
 from abstract.baseclass import ThirdPartyPayload
 
 from syncmaster_commons.gupshup.incoming_payloads import IncomingPayLoad
@@ -34,7 +36,7 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayload):
         return self._incoming_payload.payload.payload.payload_type
     
     @property
-    def _payload(self) -> dict:
+    def payload(self) -> dict:
         """
         Constructs and returns the payload dictionary.
         This method retrieves the payload from the incoming payload object,
@@ -47,25 +49,7 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayload):
         output_dict = payload.to_dict() 
         output_dict["payload_type"] = self._payload_type
         return output_dict
-    
-    @property
-    def payload(self) -> dict:
-        """
-        Generates the payload dictionary based on the payload type.
 
-        Returns:
-            dict: The payload dictionary.
-
-        Raises:
-            NotImplementedError: If the payload type is not supported.
-        """
-        if self._payload_type == "text":
-            #payload["messages"] = ("user", payload["messages"])
-            self._payload["messages"] = ("user", self._payload["text"])
-        else:
-            raise NotImplementedError(f"Payload type '{self._payload_type}' is not supported.")
-        return self._payload    
-        
 
 
     @classmethod

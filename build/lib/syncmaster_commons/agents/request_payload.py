@@ -50,11 +50,12 @@ class AgentRequestPayload(SMBaseClass):
         return self.payload.org_name
     
     @property
-    def messages(self) -> str:
+    def messages(self) -> dict:
         """
-        Returns the message.
+        Returns the messages.
         """
         return self.payload.payload.get("messages", None)
+
 
 
     @classmethod
