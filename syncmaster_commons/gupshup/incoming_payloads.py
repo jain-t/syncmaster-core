@@ -2,8 +2,7 @@ from typing import Optional, Union
 
 from pydantic import Field
 
-from syncmaster_commons.abstract.baseclass import (IncomingPayload,
-                                                   SMBaseClass)
+from syncmaster_commons.abstract.baseclass import IncomingPayload, SMBaseClass
 
 
 class _RootMessagePayloadGupshup(SMBaseClass):
@@ -316,9 +315,6 @@ class GupshupIncomingPayLoad(IncomingPayload):
             self._is_processed = True
         elif isinstance(self.payload.payload, _MessagePayLoad):
             kwargs["incoming_payload"] = self.to_dict()
-            kwargs["phone"] = self.payload.payload.sender.phone
-            # print(kwargs)
-            # run_as(jot_task, **kwargs)
         else:
             self._is_processed = True
             print(

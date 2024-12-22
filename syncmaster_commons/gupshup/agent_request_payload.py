@@ -1,4 +1,7 @@
-from syncmaster_commons.abstract.baseclass import ThirdPartyPayloadConsumedByAgent
+from typing import override
+
+from syncmaster_commons.abstract.baseclass import \
+    ThirdPartyPayloadConsumedByAgent
 from syncmaster_commons.gupshup.incoming_payloads import GupshupIncomingPayLoad
 
 
@@ -43,7 +46,26 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayloadConsumedByAgent):
         payload = self._incoming_payload.payload.payload.payload
         output_dict = payload.to_dict() 
         output_dict["payload_type"] = self._payload_type
+        if self._payload_type == "text":
+            output_dict["messages"] = ("user", output_dict["text"])
+        else:
+            raise NotImplementedError(f"Payload type '{self._payload_type}' is not supported.")    
         return output_dict
+    
+    @override
+    def to_dict(self):
+        """
+        Return a dictionary representation of the object.
+
+        Calls the superclass's to_dict() method to get the base dictionary and
+        then includes the "incoming_payload" key for additional data.
+
+        Returns:
+            dict: The dictionary with updated "incoming_payload" information.
+        """
+        og_dict =  super().to_dict()
+        og_dict["incoming_payload"] = self._incoming_payload.to_dict()
+        return og_dict
 
 
 

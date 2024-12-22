@@ -1,7 +1,7 @@
 from typing import Any, Union
 
-from syncmaster_commons.abstract.baseclass import (SMBaseClass,
-                                                   ThirdPartyPayloadConsumedByAgent)
+from syncmaster_commons.abstract.baseclass import (
+    SMBaseClass, ThirdPartyPayloadConsumedByAgent)
 from syncmaster_commons.gupshup.agent_request_payload import \
     _AgentRequestPayloadGupshup
 
@@ -17,7 +17,7 @@ class AgentRequestPayload(SMBaseClass):
                 request_payload (dict): The dictionary containing the payload data.
                 client (str, optional): The client type. Defaults to None.
             Raises:
-                ValueError: If the client is not supported.
+                ValueError If the client is not supported.
     """
     payload: Union[ThirdPartyPayloadConsumedByAgent,Any]
 

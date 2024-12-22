@@ -146,4 +146,16 @@ class ThirdPartyPayloadConsumedByAgent(SMBaseClass):
         """
         raise NotImplementedError("Method payload is not implemented.")
     
+    @override
+    def to_dict(self) -> dict:
+        """
+        Converts the object to a dictionary representation.
+
+        Returns:
+            dict: A dictionary containing the key-value pairs representing the object's attributes.
+        """
+        dict_json = super().to_dict()
+        dict_json["app_name"] = self.app_name
+        dict_json["payload_type"] = self._payload_type
+        return dict_json
     
