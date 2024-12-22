@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="syncmaster-commons",  # Package name
-    version="0.0.16",    # Initial version
+    version="0.0.17",    # Initial version
     author="nakulben",
     author_email="tech@jinacode.systems",
     description="A core library for syncmaster.",

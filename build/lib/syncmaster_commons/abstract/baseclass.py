@@ -83,6 +83,13 @@ class IncomingPayload(SMBaseClass):
     
     @abstractmethod
     def __call__(self, *args, **kwds):
+        """
+        Calls the instance as if it were a function.
+
+        :param args: Positional arguments to be passed into the callable.
+        :param kwds: Keyword arguments to be passed into the callable.
+        :raises NotImplementedError: Indicates this method must be overridden in a subclass.
+        """
         raise NotImplementedError("Method __call__ is not implemented.")
 
 
