@@ -2,12 +2,12 @@ __version__ = "0.0.14"
 
 from .abstract import SMBaseClass
 from .agents import AgentRequestPayload
-from .gupshup import IncomingPayLoad
+from .gupshup import GupshupIncomingPayLoad
 from .keys import KEYS
 
 __all__ = [
     "AgentRequestPayload",
-    "IncomingPayLoad",
+    "GupshupIncomingPayLoad",
     "KEYS",
     "SMBaseClass",
 ]

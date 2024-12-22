@@ -2,7 +2,9 @@ from typing import Optional, Union
 
 from pydantic import Field
 
-from syncmaster_commons.abstract.baseclass import SMBaseClass
+from syncmaster_commons.abstract.baseclass import (IncomingPayload,
+                                                   SMBaseClass,
+                                                   ThirdPartyPayload)
 
 
 class _RootMessagePayloadGupshup(SMBaseClass):
@@ -253,30 +255,39 @@ class _PayLoad(SMBaseClass):
         return cls(payload=payload)
 
 
-class IncomingPayLoad(SMBaseClass):
+class GupshupIncomingPayLoad(IncomingPayload):
     """
-    IncomingPayLoad class for handling payload data.
+    GupshupIncomingPayLoad class for handling incoming payloads from Gupshup.
     Attributes:
-        app (str): The application name.
-        timestamp (str): The timestamp of the payload.
-        payload (_PayLoad): The payload data.
+        app (str): The application identifier.
+        timestamp (int): The timestamp of the payload.
         is_dummy (bool): Indicates if the payload is a dummy. Defaults to False.
         _is_processed (bool): Indicates if the payload has been processed. Defaults to False.
+        payload (_PayLoad): The payload data.
     Methods:
-        from_dict(cls, payload_dict: dict) -> "IncomingPayLoad":
-        is_processed() -> bool:
+        from_dict(cls, payload_dict: dict) -> "GupshupIncomingPayLoad":
+            Creates a GupshupIncomingPayLoad object from a dictionary.
+        is_processed(self) -> bool:
             Returns the processed status of the payload.
-        process(func: Callable, **kwargs) -> None:
+        __call__(self, *args, **kwargs) -> dict:
     """
 
     app: str
-    timestamp: int
-    is_dummy: bool = False
-    _is_processed: bool = False
+    timestamp: int    
     payload: _PayLoad = Field(..., description="The payload data.")
 
+    @property
+    def app_name(self) -> str:
+        """
+        Returns the name of the Gupshup application.
+
+        :return: The application name as a string.
+        :rtype: str
+        """
+        return 'gupshup'
+
     @classmethod
-    def from_dict(cls, payload_dict: dict) -> "IncomingPayLoad":
+    def from_dict(cls, payload_dict: dict) -> "GupshupIncomingPayLoad":
         """
         Creates a PayLoad object from a dictionary.
         Args:
@@ -289,11 +300,6 @@ class IncomingPayLoad(SMBaseClass):
         timestamp = payload_dict["timestamp"]
         is_dummy = payload_dict.get("is_dummy", False)
         return cls(app=app, timestamp=timestamp, payload=payload, is_dummy=is_dummy)
-
-    @property
-    def is_processed(self) -> bool:
-        """Returns the processed status of the payload."""
-        return self._is_processed
 
     def __call__(self, *args, **kwargs) -> dict:
         """

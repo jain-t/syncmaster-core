@@ -1,5 +1,5 @@
 from syncmaster_commons.abstract.baseclass import ThirdPartyPayload
-from syncmaster_commons.gupshup.incoming_payloads import IncomingPayLoad
+from syncmaster_commons.gupshup.incoming_payloads import GupshupIncomingPayLoad
 
 
 class _AgentRequestPayloadGupshup(ThirdPartyPayload):
@@ -16,7 +16,7 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayload):
             Creates an _AgentRequestPayloadGupshup object from a dictionary.
                 _AgentRequestPayloadGupshup: The _AgentRequestPayloadGupshup object created from the dictionary.
     """  
-    _incoming_payload: IncomingPayLoad
+    _incoming_payload: GupshupIncomingPayLoad
     
     @property
     def app_name(self) -> str:
@@ -62,7 +62,7 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayload):
             KeyError: If 'task_id', 'user_id', or 'org_id' keys are missing in the payload_dict.
         """
         
-        _incoming_payload = IncomingPayLoad.from_dict(payload_dict["incoming_payload"])
+        _incoming_payload = GupshupIncomingPayLoad.from_dict(payload_dict["incoming_payload"])
         if payload_dict.get("user_id", None) is None:
             payload_dict["user_id"] = _incoming_payload.payload.payload.sender.phone
         return cls(
