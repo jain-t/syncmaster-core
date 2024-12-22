@@ -87,7 +87,7 @@ class IncomingPayload(SMBaseClass):
 
 
 
-class ThirdPartyPayload(SMBaseClass):
+class ThirdPartyPayloadConsumedByAgent(SMBaseClass):
     """
     ThirdPartyPayload is an abstract base class that represents a payload from a third-party application.
     Attributes:

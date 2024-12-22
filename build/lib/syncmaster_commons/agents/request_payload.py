@@ -1,8 +1,8 @@
 from typing import Any, Union
 
 from syncmaster_commons.abstract.baseclass import (SMBaseClass,
-                                                   ThirdPartyPayload)
-from syncmaster_commons.gupshup.request_payload import \
+                                                   ThirdPartyPayloadConsumedByAgent)
+from syncmaster_commons.gupshup.agent_request_payload import \
     _AgentRequestPayloadGupshup
 
 
@@ -19,7 +19,7 @@ class AgentRequestPayload(SMBaseClass):
             Raises:
                 ValueError: If the client is not supported.
     """
-    payload: Union[ThirdPartyPayload,Any]
+    payload: Union[ThirdPartyPayloadConsumedByAgent,Any]
 
     @property
     def org_id(self) -> int:
@@ -55,8 +55,7 @@ class AgentRequestPayload(SMBaseClass):
         Returns the messages.
         """
         return self.payload.payload.get("messages", None)
-
-
+    
 
     @classmethod
     def from_dict(cls,request_payload: dict, client:str = None) -> "AgentRequestPayload":
@@ -75,5 +74,3 @@ class AgentRequestPayload(SMBaseClass):
         return cls(
             payload=payload,
         )
-
-    

@@ -1,21 +1,19 @@
-from syncmaster_commons.abstract.baseclass import ThirdPartyPayload
+from syncmaster_commons.abstract.baseclass import ThirdPartyPayloadConsumedByAgent
 from syncmaster_commons.gupshup.incoming_payloads import GupshupIncomingPayLoad
 
 
-class _AgentRequestPayloadGupshup(ThirdPartyPayload):
+class _AgentRequestPayloadGupshup(ThirdPartyPayloadConsumedByAgent):
     """
-    _AgentRequestPayloadGupshup is a class that represents a request payload for the Gupshup agent.
+    _AgentRequestPayloadGupshup is a class that represents the payload consumed by an agent from Gupshup.
     Attributes:
-        _incoming_payload (IncomingPayLoad): The incoming payload object.
+        _incoming_payload (GupshupIncomingPayLoad): The incoming payload from Gupshup.
     Properties:
         app_name (str): Returns the name of the application, which is 'gupshup'.
-        _payload_type (str): Returns the type of the payload from the incoming payload.
-        payload (dict): Returns the payload as a dictionary with an added 'payload_type' key.
+        _payload_type (str): Returns the type of the payload.
+        payload (dict): Constructs and returns the payload dictionary with an added payload type.
     Methods:
         from_dict(cls, payload_dict: dict) -> "_AgentRequestPayloadGupshup":
-            Creates an _AgentRequestPayloadGupshup object from a dictionary.
-                _AgentRequestPayloadGupshup: The _AgentRequestPayloadGupshup object created from the dictionary.
-    """  
+  """
     _incoming_payload: GupshupIncomingPayLoad
     
     @property
@@ -26,7 +24,7 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayload):
         :return: The string 'gupshup'.
         :rtype: str
         """
-        return 'gupshup'
+        return self._incoming_payload.app_name
     
     @property
     def _payload_type(self) -> str:

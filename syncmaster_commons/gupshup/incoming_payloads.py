@@ -3,8 +3,7 @@ from typing import Optional, Union
 from pydantic import Field
 
 from syncmaster_commons.abstract.baseclass import (IncomingPayload,
-                                                   SMBaseClass,
-                                                   ThirdPartyPayload)
+                                                   SMBaseClass)
 
 
 class _RootMessagePayloadGupshup(SMBaseClass):
@@ -257,20 +256,16 @@ class _PayLoad(SMBaseClass):
 
 class GupshupIncomingPayLoad(IncomingPayload):
     """
-    GupshupIncomingPayLoad class for handling incoming payloads from Gupshup.
+    GupshupIncomingPayLoad class represents the incoming payload from the Gupshup application.
     Attributes:
-        app (str): The application identifier.
+        app (str): The name of the application.
         timestamp (int): The timestamp of the payload.
-        is_dummy (bool): Indicates if the payload is a dummy. Defaults to False.
-        _is_processed (bool): Indicates if the payload has been processed. Defaults to False.
         payload (_PayLoad): The payload data.
     Methods:
-        from_dict(cls, payload_dict: dict) -> "GupshupIncomingPayLoad":
-            Creates a GupshupIncomingPayLoad object from a dictionary.
-        is_processed(self) -> bool:
-            Returns the processed status of the payload.
-        __call__(self, *args, **kwargs) -> dict:
-    """
+        app_name() -> str:
+        from_dict(payload_dict: dict) -> "GupshupIncomingPayLoad":
+        __call__(*args, **kwargs) -> dict:
+   """
 
     app: str
     timestamp: int    
@@ -319,7 +314,7 @@ class GupshupIncomingPayLoad(IncomingPayload):
         """
         if self.is_dummy:
             self._is_processed = True
-        elif self.payload.payload.__class__.__name__ == "_MessagePayLoad":
+        elif isinstance(self.payload.payload, _MessagePayLoad):
             kwargs["incoming_payload"] = self.to_dict()
             kwargs["phone"] = self.payload.payload.sender.phone
             # print(kwargs)

@@ -1,3 +1,3 @@
-from .incoming_payloads import IncomingPayLoad
+from .incoming_payloads import GupshupIncomingPayLoad
 
-__all__ = ["IncomingPayLoad"]
+__all__ = ["GupshupIncomingPayLoad"]

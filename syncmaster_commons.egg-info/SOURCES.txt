@@ -15,8 +15,9 @@ syncmaster_commons/agents/__init__.py
 syncmaster_commons/agents/request_payload.py
 syncmaster_commons/agents/response_payload.py
 syncmaster_commons/gupshup/__init__.py
+syncmaster_commons/gupshup/abstracts.py
+syncmaster_commons/gupshup/agent_request_payload.py
 syncmaster_commons/gupshup/incoming_payloads.py
 syncmaster_commons/gupshup/outgoing_payloads.py
-syncmaster_commons/gupshup/request_payload.py
 syncmaster_commons/gupshup/response_payload.py
 tests/__init__.py

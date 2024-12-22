@@ -1,6 +1,7 @@
-from typing import override
+import keyword
+from abc import abstractmethod
+from typing import Any, Union, override
 
-# from abstract.enforcers import EnforceDocStringBaseClass
 from pydantic import BaseModel
 
 from syncmaster_commons.abstract.enforcers import EnforceDocStringBaseClass
@@ -40,9 +41,53 @@ class SMBaseClass(BaseModel, metaclass=EnforceDocStringBaseClass):
         """
         return cls(**payload)
 
+class IncomingPayload(SMBaseClass):
+    """
+    IncomingPayload is responsible for representing a payload within the system,
+    providing the mechanism to identify whether it is a dummy payload and whether
+    it has already been processed. It also requires subclasses to specify the
+    application name.
+    Attributes:
+        is_dummy (bool): Indicates whether the payload is a dummy payload.
+        _is_processed (bool): Internal tracking flag indicating if the payload
+            has been processed.
+        payload (Union[dict,Any]): The payload data.
+    Properties:
+        app_name (str): Name of the application associated with this payload.
+            Must be implemented by subclasses.
+        is_processed (bool): Indicates if the payload has been processed.
+    """
+    is_dummy: bool = False
+    _is_processed: bool = False
+    payload: Union[dict,Any]
+
+    @property
+    def app_name(self) -> str:
+        """
+        Returns the name of the application.
+
+        This method should be implemented by subclasses to provide the
+        specific name of the application.
+
+        Raises:
+            NotImplementedError: If the method is not implemented by a subclass.
+        """
+        raise NotImplementedError("Method app_name is not implemented.")
+    
+    @property
+    def is_processed(self) -> bool:
+        """
+        Returns the processed status of the payload.
+        """
+        return self._is_processed
+    
+    @abstractmethod
+    def __call__(self, *args, **kwds):
+        raise NotImplementedError("Method __call__ is not implemented.")
 
 
-class ThirdPartyPayload(SMBaseClass):
+
+class ThirdPartyPayloadConsumedByAgent(SMBaseClass):
     """
     ThirdPartyPayload is an abstract base class that represents a payload from a third-party application.
     Attributes:
@@ -101,17 +146,4 @@ class ThirdPartyPayload(SMBaseClass):
         """
         raise NotImplementedError("Method payload is not implemented.")
     
-    @override
-    def to_dict(self):
-        """
-        Convert the object to a dictionary representation.
-
-        This method overrides the `to_dict` method from the superclass to include
-        the `app_name` attribute in the dictionary representation.
-
-        Returns:
-            dict: A dictionary containing the object's data, including the `app_name` attribute.
-        """
-        _d_ = super().to_dict()
-        _d_["app_name"] = self.app_name
-        return _d_
+    
