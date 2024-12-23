@@ -22,6 +22,13 @@ class AgentRequestPayload(SMBaseClass):
     payload: Union[ThirdPartyPayloadConsumedByAgent,Any]
 
     @property
+    def app_name(self) -> str:
+        """
+        Returns the name of the application.
+        """
+        return self.payload.app_name
+
+    @property
     def org_id(self) -> int:
         """
         Returns the organization id.
@@ -68,6 +75,7 @@ class AgentRequestPayload(SMBaseClass):
             "org_name": self.org_name,
             "org_id": self.org_id,
             "task_id": self.task_id,
+            "app_name": self.app_name
         }
     
     @override
