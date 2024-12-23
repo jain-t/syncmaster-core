@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="syncmaster-commons",  # Package name
-    version="0.0.18",    # Initial version
+    version="0.0.19",    # Initial version
     author="nakulben",
     author_email="tech@jinacode.systems",
     description="A core library for syncmaster.",
@@ -18,6 +18,7 @@ setup(
     python_requires=">=3.6",  # Minimum Python version
     install_requires=[
        "pydantic",
-       "setuptools"
+       "setuptools",
+       "pytest"
     ],
 )

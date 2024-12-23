@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: syncmaster-commons
-Version: 0.0.18
+Version: 0.0.19
 Summary: A core library for syncmaster.
 Home-page: https://github.com/jain-t/syncmaster-commons
 Author: nakulben
@@ -13,5 +13,6 @@ Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: pydantic
 Requires-Dist: setuptools
+Requires-Dist: pytest
 
 # syncmaster-core

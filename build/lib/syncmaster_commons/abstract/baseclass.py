@@ -128,7 +128,7 @@ class ThirdPartyPayloadConsumedByAgent(SMBaseClass):
         raise NotImplementedError("Method app_name is not implemented.")
     
     @property
-    def _payload_type(self) -> str:
+    def payload_type(self) -> str:
         """
         Returns the type of the payload.
 
@@ -163,6 +163,6 @@ class ThirdPartyPayloadConsumedByAgent(SMBaseClass):
         """
         dict_json = super().to_dict()
         dict_json["app_name"] = self.app_name
-        dict_json["payload_type"] = self._payload_type
+        dict_json["payload_type"] = self.payload_type        
         return dict_json
     

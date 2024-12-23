@@ -1,4 +1,4 @@
-from typing import Any, Union
+from typing import Any, Union, override
 
 from syncmaster_commons.abstract.baseclass import (
     SMBaseClass, ThirdPartyPayloadConsumedByAgent)
@@ -55,6 +55,18 @@ class AgentRequestPayload(SMBaseClass):
         Returns the messages.
         """
         return self.payload.payload.get("messages", None)
+    
+    @override
+    def to_dict(self):
+        """
+        Provides a dictionary representation of the current instance, extracted from
+        the dictionary returned by the parent class.
+
+        Returns:
+            dict: The payload portion of the dictionary obtained from the parent class.
+        """
+        output_dict =  super().to_dict()
+        return output_dict["payload"]
     
 
     @classmethod

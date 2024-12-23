@@ -17,7 +17,7 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayloadConsumedByAgent):
     Methods:
         from_dict(cls, payload_dict: dict) -> "_AgentRequestPayloadGupshup":
   """
-    _incoming_payload: GupshupIncomingPayLoad
+    incoming_payload: GupshupIncomingPayLoad
     
     @property
     def app_name(self) -> str:
@@ -27,11 +27,20 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayloadConsumedByAgent):
         :return: The string 'gupshup'.
         :rtype: str
         """
-        return self._incoming_payload.app_name
+        return self.incoming_payload.app_name
     
     @property
-    def _payload_type(self) -> str:
-        return self._incoming_payload.payload.payload.payload_type
+    def payload_type(self) -> str:
+        """
+        Returns the incoming payload’s payload type.
+
+        This property retrieves the type of the payload contained within the incoming payload,
+        providing insight into how the payload should be processed or interpreted.
+
+        Returns:
+            str: The type of the payload.
+        """
+        return self.incoming_payload.payload.payload.payload_type
     
     @property
     def payload(self) -> dict:
@@ -43,31 +52,14 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayloadConsumedByAgent):
             dict: The payload dictionary with an added payload type.
         """
        
-        payload = self._incoming_payload.payload.payload.payload
+        payload = self.incoming_payload.payload.payload.payload
         output_dict = payload.to_dict() 
-        output_dict["payload_type"] = self._payload_type
-        if self._payload_type == "text":
+        output_dict["payload_type"] = self.payload_type
+        if self.payload_type == "text":
             output_dict["messages"] = ("user", output_dict["text"])
         else:
-            raise NotImplementedError(f"Payload type '{self._payload_type}' is not supported.")    
+            raise NotImplementedError(f"Payload type '{self.payload_type}' is not supported.")    
         return output_dict
-    
-    @override
-    def to_dict(self):
-        """
-        Return a dictionary representation of the object.
-
-        Calls the superclass's to_dict() method to get the base dictionary and
-        then includes the "incoming_payload" key for additional data.
-
-        Returns:
-            dict: The dictionary with updated "incoming_payload" information.
-        """
-        og_dict =  super().to_dict()
-        og_dict["incoming_payload"] = self._incoming_payload.to_dict()
-        return og_dict
-
-
 
     @classmethod
     def from_dict(cls, payload_dict: dict) -> "_AgentRequestPayloadGupshup":
@@ -82,11 +74,12 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayloadConsumedByAgent):
             KeyError: If 'task_id', 'user_id', or 'org_id' keys are missing in the payload_dict.
         """
         
-        _incoming_payload = GupshupIncomingPayLoad.from_dict(payload_dict["incoming_payload"])
+        incoming_payload = GupshupIncomingPayLoad.from_dict(payload_dict["incoming_payload"])
+        print(incoming_payload)
         if payload_dict.get("user_id", None) is None:
-            payload_dict["user_id"] = _incoming_payload.payload.payload.sender.phone
+            payload_dict["user_id"] = incoming_payload.payload.payload.sender.phone
         return cls(
-            _incoming_payload=_incoming_payload,
+            incoming_payload=incoming_payload,
             task_id=payload_dict["task_id"],
             org_name=payload_dict["org_name"],
             user_id=payload_dict["user_id"],

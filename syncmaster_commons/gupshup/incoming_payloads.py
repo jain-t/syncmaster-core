@@ -1,80 +1,9 @@
-from typing import Optional, Union
+from typing import Literal, Optional, Union, override
 
 from pydantic import Field
 
 from syncmaster_commons.abstract.baseclass import IncomingPayload, SMBaseClass
-
-
-class _RootMessagePayloadGupshup(SMBaseClass):
-    """
-    A class representing the root message payload for Gupshup.
-
-    This class inherits from `SMBaseClass` and provides a property to get the type of the payload.
-
-    Attributes:
-        payload_type (str): A property that should return the type of the payload. This method must be implemented by subclasses.
-
-    Methods:
-        payload_type: Raises NotImplementedError if not implemented in a subclass.
-    """
-
-    @property
-    def payload_type(self) -> str:
-        """Returns the type of the payload."""
-        raise NotImplementedError("Method payload_type is not implemented.")
-
-class ImagePayLoad(_RootMessagePayloadGupshup):
-    """_ImagePayLoad is a class responsible handling image payloads for the Gupshup API."""
-
-    url: str
-    caption: Optional[str] = None
-    contenType: str
-    urlExpiry: str
-    is_expired: bool = False
-
-    @property
-    def payload_type(self) -> str:
-        """Returns the type of the payload."""
-        return "image"
-
-    @classmethod
-    def from_dict(cls, image_dict: dict) -> "ImagePayLoad":
-        """
-        Creates a _ImagePayLoad object from a dictionary.
-        Args:
-            image_dict (dict): The dictionary containing the image data.
-        Returns:
-            _ImagePayLoad: The _ImagePayLoad object created from the dictionary.
-        """
-        return cls(
-            url=image_dict["url"],
-            caption=image_dict.get("caption"),
-            contenType=image_dict["contenType"],
-            urlExpiry=image_dict["urlExpiry"],
-            is_expired=image_dict.get("is_expired", False),
-        )
-
-
-class TextPayLoad(_RootMessagePayloadGupshup):
-    """_TextPayLoad is a class responsible handling text payloads for the Gupshup API."""
-
-    text: str
-
-    @property
-    def payload_type(self) -> str:
-        """Returns the type of the payload."""
-        return "text"
-
-    @classmethod
-    def from_dict(cls, text_dict: dict) -> "TextPayLoad":
-        """
-        Creates a _TextPayLoad object from a dictionary.
-        Args:
-            text_dict (dict): The dictionary containing the text data.
-        Returns:
-            _TextPayLoad: The _TextPayLoad object created from the dictionary.
-        """
-        return cls(text=text_dict["text"])
+from syncmaster_commons.gupshup.atomic_payload import ImagePayLoad, TextPayLoad
 
 
 class _Sender(SMBaseClass):
@@ -101,8 +30,43 @@ class _Sender(SMBaseClass):
             dial_code=sender_dict["dial_code"],
         )
 
+class _EventPayloadGupshup(SMBaseClass):
+    """
+    A specialized event payload class for Gupshup that inherits from SMBaseClass.
+    This class is designed to handle the representation of incoming Gupshup event
+    payloads, providing the following functionalities:
+    Attributes:
+        _type (str): A property method that must be implemented to return the
+                     specific type of the Gupshup event payload.
+    Methods:
+        to_dict() -> dict:
+            Converts the object's attributes into a dictionary, including the
+            required 'type' key, which is populated by the `_type` property.
+    """
+    payload_type: Optional[str] = None
 
-class _MessagePayLoad(SMBaseClass):
+    @property
+    def event_type(self) -> str:
+        """Returns the type of the payload."""
+        raise NotImplementedError("Method event_type is not implemented.")
+    
+    @override
+    def to_dict(self) -> dict:
+        """
+        Converts the object to a dictionary representation, including the `type` attribute.
+
+        Returns:
+            dict: A dictionary containing the key-value pairs representing the object's attributes.
+        """
+        dict_json = super().to_dict()
+        dict_json["type"] = self.payload_type
+        return dict_json
+
+
+
+
+
+class _MessagePayLoad(_EventPayloadGupshup):
     """
     _PayLoad class represents a payload structure for the CRM assistant.
     Attributes:
@@ -118,9 +82,10 @@ class _MessagePayLoad(SMBaseClass):
     sender: _Sender
 
     @property
-    def payload_type(self) -> str:
+    def event_type(self) -> str:
         """Returns the type of the payload."""
-        return self.payload.payload_type
+        return "message"
+
 
     @classmethod
     def from_dict(cls, payload_dict: dict) -> "_MessagePayLoad":
@@ -145,16 +110,20 @@ class _MessagePayLoad(SMBaseClass):
             source=payload_dict["source"],
             payload=payload,
             sender=sender,
+            payload_type=payload_dict["type"],
         )
 
-
-class _MessageEventPayLoad(SMBaseClass):
+class _MessageEventPayLoad(_EventPayloadGupshup):
     """ """
 
     id: str
-    _type: str
     destination: str
     payload: dict
+
+    @property
+    def event_type(self) -> str:
+        """Returns the type of the payload."""
+        return "message-event"
 
     @classmethod
     def from_dict(cls, payload_dict: dict) -> "_MessageEventPayLoad":
@@ -167,13 +136,12 @@ class _MessageEventPayLoad(SMBaseClass):
         """
         return cls(
             id=payload_dict["id"],
-            _type=payload_dict["type"],
             destination=payload_dict["destination"],
             payload=payload_dict["payload"],
         )
 
 
-class _BillingEventPayload(SMBaseClass):
+class _BillingEventPayload(_EventPayloadGupshup):
     """
 
     Class for handling billing event payloads.
@@ -185,6 +153,11 @@ class _BillingEventPayload(SMBaseClass):
 
     deductions: dict
     references: dict
+
+    @property
+    def event_type(self) -> str:
+        """Returns the type of the payload."""
+        return "billing-event"
 
     @classmethod
     def from_dict(cls, payload_dict: dict) -> "_BillingEventPayload":
@@ -201,11 +174,15 @@ class _BillingEventPayload(SMBaseClass):
         )
 
 
-class _UserEventPayload(SMBaseClass):
+class _UserEventPayload(_EventPayloadGupshup):
     """ """
 
     phone: str
-    _type: str
+
+    @property
+    def _type(self) -> str:
+        """Returns the type of the payload."""
+        return "user-event"
 
     @classmethod
     def from_dict(cls, payload_dict: dict) -> "_UserEventPayload":
@@ -218,7 +195,6 @@ class _UserEventPayload(SMBaseClass):
         """
         return cls(
             phone=payload_dict["phone"],
-            _type=payload_dict["type"],
         )
 
 
@@ -230,7 +206,21 @@ class _PayLoad(SMBaseClass):
     payload: Union[
         _MessagePayLoad, _MessageEventPayLoad, _BillingEventPayload, _UserEventPayload
     ]
+    event_type: Literal["message", "message-event", "billing-event", "user-event"]
 
+    @override
+    def to_dict(self) -> dict:
+        """
+        Converts the object to a dictionary representation, including the object's attributes and type.
+
+        Returns:
+            dict: A dictionary containing the key-value pairs representing the object's attributes.
+        """
+        dict_json = super().to_dict()
+        dict_json["type"] = self.event_type        
+        dict_json.pop("event_type")        
+        return dict_json
+    
     @classmethod
     def from_dict(cls, payload_dict: dict) -> "_PayLoad":
         """
@@ -241,7 +231,7 @@ class _PayLoad(SMBaseClass):
             _PayLoad: The _PayLoad object created from the dictionary.
         """
         if payload_dict["type"] == "message":
-            payload = _MessagePayLoad.from_dict(payload_dict["payload"])
+            payload = _MessagePayLoad.from_dict(payload_dict["payload"])            
         elif payload_dict["type"] == "message-event":
             payload = _MessageEventPayLoad.from_dict(payload_dict["payload"])
         elif payload_dict["type"] == "user-event":
@@ -250,7 +240,7 @@ class _PayLoad(SMBaseClass):
             raise NotImplementedError(
                 f"Payload type {payload_dict['type']} not supported."
             )
-        return cls(payload=payload)
+        return cls(payload=payload, event_type=payload_dict["type"])
 
 
 class GupshupIncomingPayLoad(IncomingPayload):
@@ -289,7 +279,7 @@ class GupshupIncomingPayLoad(IncomingPayload):
         Returns:
             PayLoad: The PayLoad object created from the dictionary.
         """
-        payload:_PayLoad = _PayLoad.from_dict(payload_dict)
+        payload:_PayLoad = _PayLoad.from_dict(payload_dict["payload"] if "payload" in payload_dict else payload_dict)
         app = payload_dict["app"]
         timestamp = payload_dict["timestamp"]
         is_dummy = payload_dict.get("is_dummy", False)
@@ -322,3 +312,5 @@ class GupshupIncomingPayLoad(IncomingPayload):
                 self.payload.payload.__class__.__name__,
             )
         return kwargs
+
+
