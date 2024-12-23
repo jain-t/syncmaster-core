@@ -56,6 +56,20 @@ class AgentRequestPayload(SMBaseClass):
         """
         return self.payload.payload.get("messages", None)
     
+    @property
+    def streamer_payload(self) -> dict:
+        """
+        Returns the streamer payload.
+        """
+        return {
+            "messages": self.messages,
+            "user_id": self.user_id,
+            "org_id": self.org_id,
+            "org_name": self.org_name,
+            "org_id": self.org_id,
+            "task_id": self.task_id,
+        }
+    
     @override
     def to_dict(self):
         """
