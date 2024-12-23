@@ -88,6 +88,7 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayloadConsumedByAgent):
         return cls(
             _incoming_payload=_incoming_payload,
             task_id=payload_dict["task_id"],
+            org_name=payload_dict["org_name"],
             user_id=payload_dict["user_id"],
             org_id=payload_dict["org_id"],
         )

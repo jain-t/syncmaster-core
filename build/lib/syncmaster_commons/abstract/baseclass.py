@@ -108,7 +108,7 @@ class ThirdPartyPayloadConsumedByAgent(SMBaseClass):
         payload: Abstract property that should return the payload data.
         to_dict (dict): Converts the object to a dictionary representation, including the `app_name` attribute.
     """
-    task_id: int
+    task_id: str
     user_id: str
     org_id: int
     org_name: str
