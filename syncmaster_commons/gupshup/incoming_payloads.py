@@ -279,7 +279,7 @@ class GupshupIncomingPayLoad(IncomingPayload):
         Returns:
             PayLoad: The PayLoad object created from the dictionary.
         """
-        payload:_PayLoad = _PayLoad.from_dict(payload_dict["payload"] if "payload" in payload_dict else payload_dict)
+        payload:_PayLoad = _PayLoad.from_dict(payload_dict["payload"] if "payload" in payload_dict["payload"] else payload_dict)
         app = payload_dict["app"]
         timestamp = payload_dict["timestamp"]
         is_dummy = payload_dict.get("is_dummy", False)

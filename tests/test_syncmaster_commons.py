@@ -48,4 +48,18 @@ def test_agent_request_payload():
     assert isinstance(agent_request_payload.payload, _AgentRequestPayloadGupshup)
     print(agent_request_payload.to_dict())
     assert agent_request_payload.to_dict() == payload
-    
+
+
+"""
+{
+  "app": "SyncMaster",
+  "timestamp": 1735052295652,
+  "version": 2,
+  "type": "user-event",
+  "payload": {
+    "phone": "callbackSetPhone",
+    "type": "sandbox-start"
+  }
+}
+
+"""
