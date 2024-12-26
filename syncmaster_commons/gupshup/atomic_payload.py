@@ -39,7 +39,7 @@ class ImagePayLoad(_RootMessagePayloadGupshup):
     url: str
     caption: Optional[str] = None
     contentType: str
-    urlExpiry: str
+    urlExpiry: int
     is_expired: bool = False
 
     @property

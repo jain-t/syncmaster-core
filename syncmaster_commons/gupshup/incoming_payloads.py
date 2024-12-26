@@ -268,7 +268,7 @@ class GupshupIncomingPayLoad(IncomingPayload):
         :return: The application name as a string.
         :rtype: str
         """
-        return 'gupshup'
+        return 'WhatsApp'
 
     @classmethod
     def from_dict(cls, payload_dict: dict) -> "GupshupIncomingPayLoad":
