@@ -38,7 +38,7 @@ class ImagePayLoad(_RootMessagePayloadGupshup):
 
     url: str
     caption: Optional[str] = None
-    contenType: str
+    contentType: str
     urlExpiry: str
     is_expired: bool = False
 
@@ -59,7 +59,7 @@ class ImagePayLoad(_RootMessagePayloadGupshup):
         return cls(
             url=image_dict["url"],
             caption=image_dict.get("caption"),
-            contenType=image_dict["contenType"],
+            contentType=image_dict["contentType"],
             urlExpiry=image_dict["urlExpiry"],
             is_expired=image_dict.get("is_expired", False),
         )
