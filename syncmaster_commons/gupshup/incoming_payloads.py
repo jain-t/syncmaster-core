@@ -180,7 +180,7 @@ class _UserEventPayload(_EventPayloadGupshup):
     phone: str
 
     @property
-    def _type(self) -> str:
+    def event_type(self) -> str:
         """Returns the type of the payload."""
         return "user-event"
 
