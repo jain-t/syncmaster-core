@@ -35,7 +35,7 @@ def _gupshup_make_text_payload():
       "app": "System",
       "timestamp": 1629780000
     },
-    "app_name": "gupshup",
+    "app_name": "WhatsApp",
     "payload_type": "text"
   }
 

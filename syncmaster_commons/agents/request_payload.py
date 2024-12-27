@@ -24,7 +24,7 @@ class AgentRequestPayload(SMBaseClass):
     @property
     def app_name(self) -> str:
         """
-        Returns the name of the application.
+        Returns the name of the applicatio that the payload is associated with.
         """
         return self.payload.app_name
 
@@ -75,7 +75,7 @@ class AgentRequestPayload(SMBaseClass):
             "org_name": self.org_name,
             "org_id": self.org_id,
             "task_id": self.task_id,
-            "app_name": self.app_name
+            "incoming_msg_platform": self.app_name
         }
     
     @override
@@ -101,7 +101,7 @@ class AgentRequestPayload(SMBaseClass):
             AgentRequestPayload: The AgentRequestPayload object created from the dictionary.
         """
         app_name = request_payload.get("app_name", None)
-        if client == "gupshup" or app_name == "gupshup":
+        if client == "WhatsApp" or app_name == "WhatsApp":
             payload = _AgentRequestPayloadGupshup.from_dict(request_payload) 
         else:
             raise ValueError(f"Client {client} is not supported.")
