@@ -1,4 +1,4 @@
-import keyword
+
 from abc import abstractmethod
 from typing import Any, Union, override
 
@@ -99,6 +99,7 @@ class ThirdPartyPayloadConsumedByAgent(SMBaseClass):
     ThirdPartyPayload is an abstract base class that represents a payload from a third-party application.
     Attributes:
         task_id (int): The ID of the task.
+        task_name (str): The name of the task.
         user_id (str): The ID of the user.
         org_id (int): The ID of the organization.
         org_name (str): The name of the organization.
@@ -109,6 +110,7 @@ class ThirdPartyPayloadConsumedByAgent(SMBaseClass):
         to_dict (dict): Converts the object to a dictionary representation, including the `app_name` attribute.
     """
     task_id: str
+    task_name: str
     user_id: str
     org_id: int
     org_name: str
@@ -166,3 +168,111 @@ class ThirdPartyPayloadConsumedByAgent(SMBaseClass):
         dict_json["payload_type"] = self.payload_type        
         return dict_json
     
+
+
+class OutgoingPayload(SMBaseClass):
+    """
+    OutGoingPayload is an abstract base class that represents an outgoing payload in the SyncMaster system.
+    Attributes:
+        payload (Union[dict, Any]): The payload data, which can be a dictionary or any other type.
+    Properties:
+        app_name (str): Abstract property that should be implemented by subclasses to return the name of the application.
+        is_processed (bool): Property that returns the processed status of the payload.
+    Methods:
+        __call__(*args, **kwds): Abstract method that should be implemented by subclasses to make the instance callable.
+    """
+    payload: Union[dict,Any]
+
+    @property
+    def app_name(self) -> str:
+        """
+        Returns the name of the application.
+
+        This method should be implemented by subclasses to provide the
+        specific name of the application.
+
+        Raises:
+            NotImplementedError: If the method is not implemented by a subclass.
+        """
+        raise NotImplementedError("Method app_name is not implemented.")
+    
+    @abstractmethod
+    def __call__(self, *args, **kwds):
+        """
+        Calls the instance as if it were a function.
+
+        :param args: Positional arguments to be passed into the callable.
+        :param kwds: Keyword arguments to be passed into the callable.
+        :raises NotImplementedError: Indicates this method must be overridden in a subclass.
+        """
+        raise NotImplementedError("Method __call__ is not implemented.")
+
+
+class ThirdPartyOutgoingPayload(SMBaseClass):
+    """
+    ThirdPartyOutgoingPayload is an abstract base class that represents the payload for outgoing third-party tasks.
+    Attributes:
+        task_id (str): The unique identifier for the task.
+    Properties:
+        app_name (str): Abstract property that should be implemented by subclasses to return the name of the application.
+        payload_type (str): Abstract property that should be implemented by subclasses to return the type of the payload.
+        payload: Abstract property that should be implemented by subclasses to return the payload data.
+    Methods:
+        to_dict() -> dict: Converts the object to a dictionary representation, including the app_name and payload_type.
+        NotImplementedError: If the app_name, payload_type, or payload properties are not implemented by a subclass.
+    """
+
+    task_id: str
+
+    @property
+    def app_name(self) -> str:
+        """
+        Returns the name of the application.
+
+        This method should be implemented by subclasses to provide the
+        specific name of the application.
+
+        Raises:
+            NotImplementedError: If the method is not implemented by a subclass.
+        """
+        raise NotImplementedError("Method app_name is not implemented.")
+    
+    @property
+    def payload_type(self) -> str:
+        """
+        Returns the type of the payload.
+
+        This method should be implemented by subclasses to provide the
+        specific payload type.
+
+        Raises:
+            NotImplementedError: If the method is not implemented by a subclass.
+        """
+        raise NotImplementedError("Method _payload_type is not implemented.")
+    
+    @property
+    def payload(self):
+        """
+        Returns the payload data.
+
+        This method should be implemented by subclasses to provide the
+        specific payload data.
+
+        Raises:
+            NotImplementedError: If the method is not implemented by a subclass.
+        """
+        raise NotImplementedError("Method payload is not implemented.")
+    
+    @override
+    def to_dict(self) -> dict:
+        """
+        Converts the object to a dictionary representation.
+
+        Returns:
+            dict: A dictionary containing the key-value pairs representing the object's attributes.
+        """
+        dict_json = super().to_dict()
+        dict_json["app_name"] = self.app_name
+        dict_json["payload_type"] = self.payload_type        
+        return dict_json
+        

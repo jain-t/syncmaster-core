@@ -1,6 +1,6 @@
 import pytest
 
-from syncmaster_commons import AgentRequestPayload
+from syncmaster_commons import AgentRequestPayload, TaskNames
 from syncmaster_commons.gupshup.agent_request_payload import \
     _AgentRequestPayloadGupshup
 
@@ -10,6 +10,7 @@ def _gupshup_make_text_payload():
     "task_id": "1",
     "user_id": "1",
     "org_id": 1,
+    "task_name": TaskNames.PITCH_SALES.value,
     "org_name": "Test Org",
     "incoming_payload": {
       "is_dummy": False,
@@ -49,17 +50,3 @@ def test_agent_request_payload():
     print(agent_request_payload.to_dict())
     assert agent_request_payload.to_dict() == payload
 
-
-"""
-{
-  "app": "SyncMaster",
-  "timestamp": 1735052295652,
-  "version": 2,
-  "type": "user-event",
-  "payload": {
-    "phone": "callbackSetPhone",
-    "type": "sandbox-start"
-  }
-}
-
-"""

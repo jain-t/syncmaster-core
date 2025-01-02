@@ -1,6 +1,6 @@
 from typing import Optional, override
 
-from syncmaster_commons.abstract.baseclass import IncomingPayload, SMBaseClass
+from syncmaster_commons.abstract.baseclass import SMBaseClass
 
 
 class _RootMessagePayloadGupshup(SMBaseClass):

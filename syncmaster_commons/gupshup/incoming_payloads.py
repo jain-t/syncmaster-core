@@ -3,7 +3,8 @@ from typing import Literal, Optional, Union, override
 from pydantic import Field
 
 from syncmaster_commons.abstract.baseclass import IncomingPayload, SMBaseClass
-from syncmaster_commons.gupshup.atomic_payload import ImagePayLoad, TextPayLoad
+from syncmaster_commons.gupshup.atomic_incoming_payload import (ImagePayLoad,
+                                                                TextPayLoad)
 
 
 class _Sender(SMBaseClass):

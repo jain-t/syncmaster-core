@@ -1,5 +1,7 @@
 from typing import Any, Union, override
 
+from pydantic import Field
+
 from syncmaster_commons.abstract.baseclass import (
     SMBaseClass, ThirdPartyPayloadConsumedByAgent)
 from syncmaster_commons.gupshup.agent_request_payload import \
@@ -50,6 +52,13 @@ class AgentRequestPayload(SMBaseClass):
         return self.payload.task_id
     
     @property
+    def task_name(self) -> str:
+        """
+        Returns the task name.
+        """
+        return self.payload.task_name
+    
+    @property
     def org_name(self) -> str:
         """
         Returns the organization name.
@@ -75,6 +84,7 @@ class AgentRequestPayload(SMBaseClass):
             "org_name": self.org_name,
             "org_id": self.org_id,
             "task_id": self.task_id,
+            "task_name": self.task_name,
             "incoming_msg_platform": self.app_name
         }
     
