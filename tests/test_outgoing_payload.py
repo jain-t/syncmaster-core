@@ -2,7 +2,7 @@ import pytest
 
 from syncmaster_commons import AgentResponsePayload, TaskNames
 from syncmaster_commons.gupshup.agent_response_payload import \
-    _AgentResponsePayloadGupshup
+    AgentResponsePayloadGupshup
 
 
 def _gupshup_make_text_payload():
@@ -31,7 +31,7 @@ def test_agent_request_payload():
     print("====2=====")
     print(payload)
     print("==========")
-    assert isinstance(agent_request_payload.payload, _AgentResponsePayloadGupshup)
+    assert isinstance(agent_request_payload.payload, AgentResponsePayloadGupshup)
     print("====3=====")
     print(agent_request_payload.to_dict())
     print("====4=====")

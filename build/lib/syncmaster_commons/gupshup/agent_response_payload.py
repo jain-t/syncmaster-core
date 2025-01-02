@@ -5,9 +5,9 @@ from syncmaster_commons.abstract.baseclass import ThirdPartyOutgoingPayload
 from syncmaster_commons.gupshup.outgoing_payloads import GupshupOutgoingPayload
 
 
-class _AgentResponsePayloadGupshup(ThirdPartyOutgoingPayload):
+class AgentResponsePayloadGupshup(ThirdPartyOutgoingPayload):
     """
-    _AgentResponsePayloadGupshup is a class that represents the payload for agent responses in the Gupshup integration.
+    AgentResponsePayloadGupshup is a class that represents the payload for agent responses in the Gupshup integration.
     Attributes:
         outgoing_payload (GupshupOutgoingPayload): The outgoing payload object.
         task_id (str): The unique identifier for the task.
@@ -17,7 +17,7 @@ class _AgentResponsePayloadGupshup(ThirdPartyOutgoingPayload):
         payload_type (str): Returns the incoming payload’s payload type.
         payload (dict): Constructs and returns the payload dictionary.
     Methods:
-        from_dict(cls, payload_dict: dict) -> "_AgentResponsePayloadGupshup":
+        from_dict(cls, payload_dict: dict) -> "AgentResponsePayloadGupshup":
     """
     outgoing_payload: GupshupOutgoingPayload
     
@@ -60,7 +60,7 @@ class _AgentResponsePayloadGupshup(ThirdPartyOutgoingPayload):
         return output_dict
 
     @classmethod
-    def from_dict(cls, payload_dict: dict) -> "_AgentResponsePayloadGupshup":
+    def from_dict(cls, payload_dict: dict) -> "AgentResponsePayloadGupshup":
         """
         Creates an instance of _AgentResponsePayloadGupshup from a dictionary.
         Args:

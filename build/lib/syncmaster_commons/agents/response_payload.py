@@ -5,7 +5,7 @@ from pydantic import Field
 from syncmaster_commons.abstract.baseclass import (SMBaseClass,
                                                    ThirdPartyOutgoingPayload)
 from syncmaster_commons.gupshup.agent_response_payload import \
-    _AgentResponsePayloadGupshup
+    AgentResponsePayloadGupshup
 
 
 class AgentResponsePayload(SMBaseClass):
@@ -62,7 +62,7 @@ class AgentResponsePayload(SMBaseClass):
         """
         app_name = response_payload.get("app_name", None)
         if client == "WhatsApp" or app_name == "WhatsApp":
-            payload = _AgentResponsePayloadGupshup.from_dict(response_payload) 
+            payload = AgentResponsePayloadGupshup.from_dict(response_payload) 
         else:
             raise ValueError(f"Client {client} is not supported.")
         return cls(
