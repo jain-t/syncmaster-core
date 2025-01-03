@@ -118,7 +118,7 @@ class _MessageEventPayLoad(_EventPayloadGupshup):
     """ """
 
     id: str
-    destination: str
+    # destination: str
     payload: dict
 
     @property
@@ -137,7 +137,7 @@ class _MessageEventPayLoad(_EventPayloadGupshup):
         """
         return cls(
             id=payload_dict["id"],
-            destination=payload_dict["destination"],
+            # destination=payload_dict["destination"],
             payload=payload_dict["payload"],
         )
 
