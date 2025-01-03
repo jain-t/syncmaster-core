@@ -10,17 +10,22 @@ from syncmaster_commons.gupshup.agent_response_payload import \
 
 class AgentResponsePayload(SMBaseClass):
     """
-    AgentResponsePayload class for handling agent request payloads.
+    AgentResponsePayload is a class that represents the response payload for an agent. It inherits from SMBaseClass and provides properties and methods to interact with the payload data.
     Attributes:
-        agent_request_payload (Union[AgentResponsePayload]): The payload data for the agent request.
+        payload (Union[ThirdPartyOutgoingPayload, Any]): The payload associated with the agent response.
+    Properties:
+        app_name (str): Returns the name of the application that the payload is associated with.
+        task_id (int): Returns the task id.
     Methods:
+        to_dict() -> dict:
+            Provides a dictionary representation of the current instance, extracted from the dictionary returned by the parent class.
         from_dict(cls, response_payload: dict, client: str = None) -> "AgentResponsePayload":
             Creates an AgentResponsePayload object from a dictionary.
-                request_payload (dict): The dictionary containing the payload data.
-                client (str, optional): The client type. Defaults to None.
-            Raises:
-                ValueError If the client is not supported.
+                response_payload (dict): The dictionary containing the payload data.
+                client (str, optional): The client associated with the payload. Defaults to None.
+                AgentResponsePayload: The AgentResponsePayload object created from the dictionary.
     """
+
     payload: Union[ThirdPartyOutgoingPayload,Any]
 
     @property
@@ -54,12 +59,16 @@ class AgentResponsePayload(SMBaseClass):
     @classmethod
     def from_dict(cls,response_payload: dict, client:str = None) -> "AgentResponsePayload":
         """
-        Creates a AgentRequestPayload object from a dictionary.
+        Creates an instance of `AgentResponsePayload` from a dictionary.
         Args:
-            payload_dict (dict): The dictionary containing the payload data.
+            response_payload (dict): The dictionary containing the response payload data.
+            client (str, optional): The client type. Defaults to None.
         Returns:
-            AgentRequestPayload: The AgentRequestPayload object created from the dictionary.
+            AgentResponsePayload: An instance of `AgentResponsePayload`.
+        Raises:
+            ValueError: If the client is not supported.
         """
+        
         app_name = response_payload.get("app_name", None)
         if client == "WhatsApp" or app_name == "WhatsApp":
             payload = AgentResponsePayloadGupshup.from_dict(response_payload) 

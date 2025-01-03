@@ -62,12 +62,12 @@ class AgentResponsePayloadGupshup(ThirdPartyOutgoingPayload):
     @classmethod
     def from_dict(cls, payload_dict: dict) -> "AgentResponsePayloadGupshup":
         """
-        Creates an instance of _AgentResponsePayloadGupshup from a dictionary.
+        Creates an instance of AgentResponsePayloadGupshup from a dictionary.
         Args:
             cls: The class itself.
             payload_dict (dict): A dictionary containing the payload data.
         Returns:
-            _AgentResponsePayloadGupshup: An instance of the class populated with data from the dictionary.
+            AgentResponsePayloadGupshup: An instance of the class populated with data from the dictionary.
         Raises:
             KeyError: If 'task_id', 'user_id', or 'org_id' keys are missing in the payload_dict.
         """

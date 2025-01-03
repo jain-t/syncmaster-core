@@ -1,8 +1,10 @@
-__version__ = "0.0.31"
+__version__ = "0.0.32"
 
 from .abstract import SMBaseClass
 from .agents import AgentRequestPayload, AgentResponsePayload
-from .gupshup import GupshupIncomingPayLoad, GupshupOutgoingPayload, ImagePayload, TextPayload, VideoPayload, AudioPayload, LocationPayload, AgentResponsePayloadGupshup
+from .gupshup import (AgentResponsePayloadGupshup, AudioPayload,
+                      GupshupIncomingPayLoad, GupshupOutgoingPayload,
+                      ImagePayload, LocationPayload, TextPayload, VideoPayload)
 from .keys import KEYS
 from .task_names import TaskNames
 
