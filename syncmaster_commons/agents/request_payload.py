@@ -85,10 +85,11 @@ class AgentRequestPayload(SMBaseClass):
             "org_name": self.org_name,
             "org_id": self.org_id,
             "task_id": self.task_id,
-            "task_name": self.task_name,
+            
             "incoming_msg_platform": self.app_name
             },
-            "user_id": self.user_id,
+            "is_employee": False, #hardcoded for now
+            "task_name": self.task_name,
         }
 
     
