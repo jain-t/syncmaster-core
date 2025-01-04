@@ -78,18 +78,10 @@ class AgentRequestPayload(SMBaseClass):
         Returns the streamer payload.
         """
         return {
-            "payload": {
-                "messages": self.messages,
-            "user_id": self.user_id,
-            "org_id": self.org_id,
-            "org_name": self.org_name,
-            "org_id": self.org_id,
-            "task_id": self.task_id,
-            
-            "incoming_msg_platform": self.app_name
-            },
+            "payload": self.to_dict(),
             "is_employee": False, #hardcoded for now
             "task_name": self.task_name,
+            "user_id": self.user_id,
         }
 
     
