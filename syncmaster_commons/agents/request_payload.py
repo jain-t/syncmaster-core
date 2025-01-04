@@ -78,7 +78,8 @@ class AgentRequestPayload(SMBaseClass):
         Returns the streamer payload.
         """
         return {
-            "messages": self.messages,
+            "payload": {
+                "messages": self.messages,
             "user_id": self.user_id,
             "org_id": self.org_id,
             "org_name": self.org_name,
@@ -86,7 +87,10 @@ class AgentRequestPayload(SMBaseClass):
             "task_id": self.task_id,
             "task_name": self.task_name,
             "incoming_msg_platform": self.app_name
+            },
+            "user_id": self.user_id,
         }
+
     
     @override
     def to_dict(self):
