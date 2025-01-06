@@ -1,27 +1,31 @@
 from typing import Any, Union, override
 
-from pydantic import Field
-
 from syncmaster_commons.abstract.baseclass import (
     SMBaseClass, ThirdPartyPayloadConsumedByAgent)
 from syncmaster_commons.gupshup.agent_request_payload import \
-    _AgentRequestPayloadGupshup
+    AgentRequestPayloadGupshup
 
 
 class AgentRequestPayload(SMBaseClass):
     """
-    AgentRequestPayload class for handling agent request payloads.
+    AgentRequestPayload class is responsible for handling the payload associated with an agent's request. 
+    It provides various properties to access specific attributes of the payload and methods to convert 
+    the payload to and from a dictionary representation.
     Attributes:
-        agent_request_payload (Union[_AgentRequestPayloadGupshup]): The payload data for the agent request.
+        payload (Union[ThirdPartyPayloadConsumedByAgent, AgentRequestPayloadGupshup]): The payload associated with the agent's request.
+    Properties:
+        app_name (str): Returns the name of the application that the payload is associated with.
+        org_id (int): Returns the organization id.
+        user_id (str): Returns the user id.
+        task_id (int): Returns the task id.
+        task_name (str): Returns the task name.
+        org_name (str): Returns the organization name.
+        messages (dict): Returns the messages.
     Methods:
-        from_dict(cls, request_payload: dict, client: str = None) -> "AgentRequestPayload":
-            Creates an AgentRequestPayload object from a dictionary.
-                request_payload (dict): The dictionary containing the payload data.
-                client (str, optional): The client type. Defaults to None.
-            Raises:
-                ValueError If the client is not supported.
+        to_dict(): Provides a dictionary representation of the current instance, extracted from the dictionary returned by the parent class.
+        from_dict(request_payload: dict, client: str = None) -> "AgentRequestPayload": Creates an AgentRequestPayload object from a dictionary.
     """
-    payload: Union[ThirdPartyPayloadConsumedByAgent,Any]
+    payload: Union[ThirdPartyPayloadConsumedByAgent,AgentRequestPayloadGupshup]
 
     @property
     def app_name(self) -> str:
@@ -72,18 +76,6 @@ class AgentRequestPayload(SMBaseClass):
         """
         return self.payload.payload.get("messages", None)
     
-    @property
-    def streamer_payload(self) -> dict:
-        """
-        Returns the streamer payload.
-        """
-        return {
-            "payload": self.to_dict(),
-            "is_employee": False, #hardcoded for now
-            "task_name": self.task_name,
-            "user_id": self.user_id,
-        }
-
     
     @override
     def to_dict(self):
@@ -109,7 +101,7 @@ class AgentRequestPayload(SMBaseClass):
         """
         app_name = request_payload.get("app_name", None)
         if client == "WhatsApp" or app_name == "WhatsApp":
-            payload = _AgentRequestPayloadGupshup.from_dict(request_payload) 
+            payload = AgentRequestPayloadGupshup.from_dict(request_payload) 
         else:
             raise ValueError(f"Client {client} is not supported.")
         return cls(

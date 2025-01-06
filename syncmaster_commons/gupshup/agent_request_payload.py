@@ -1,13 +1,11 @@
-from typing import override
-
 from syncmaster_commons.abstract.baseclass import \
     ThirdPartyPayloadConsumedByAgent
 from syncmaster_commons.gupshup.incoming_payloads import GupshupIncomingPayLoad
 
 
-class _AgentRequestPayloadGupshup(ThirdPartyPayloadConsumedByAgent):
+class AgentRequestPayloadGupshup(ThirdPartyPayloadConsumedByAgent):
     """
-    _AgentRequestPayloadGupshup is a class that represents the payload consumed by an agent from Gupshup.
+    AgentRequestPayloadGupshup is a class that represents the payload consumed by an agent from Gupshup.
     Attributes:
         _incoming_payload (GupshupIncomingPayLoad): The incoming payload from Gupshup.
     Properties:
@@ -15,7 +13,7 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayloadConsumedByAgent):
         _payload_type (str): Returns the type of the payload.
         payload (dict): Constructs and returns the payload dictionary with an added payload type.
     Methods:
-        from_dict(cls, payload_dict: dict) -> "_AgentRequestPayloadGupshup":
+        from_dict(cls, payload_dict: dict) -> "AgentRequestPayloadGupshup":
   """
     incoming_payload: GupshupIncomingPayLoad
     
@@ -62,14 +60,14 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayloadConsumedByAgent):
         return output_dict
 
     @classmethod
-    def from_dict(cls, payload_dict: dict) -> "_AgentRequestPayloadGupshup":
+    def from_dict(cls, payload_dict: dict) -> "AgentRequestPayloadGupshup":
         """
-        Creates an instance of _AgentRequestPayloadGupshup from a dictionary.
+        Creates an instance of AgentRequestPayloadGupshup from a dictionary.
         Args:
             cls: The class itself.
             payload_dict (dict): A dictionary containing the payload data.
         Returns:
-            _AgentRequestPayloadGupshup: An instance of the class populated with data from the dictionary.
+            AgentRequestPayloadGupshup: An instance of the class populated with data from the dictionary.
         Raises:
             KeyError: If 'task_id', 'user_id', or 'org_id' keys are missing in the payload_dict.
         """
@@ -85,5 +83,6 @@ class _AgentRequestPayloadGupshup(ThirdPartyPayloadConsumedByAgent):
             org_name=payload_dict["org_name"],
             user_id=payload_dict["user_id"],
             org_id=payload_dict["org_id"],
+            agent_name=payload_dict.get("agent_name", None),
         )
     
