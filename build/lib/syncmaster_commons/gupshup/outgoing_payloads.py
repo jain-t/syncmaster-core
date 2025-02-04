@@ -55,7 +55,7 @@ class PayloadGenerator(SMBaseClass):
 class TextPayload(PayloadGenerator):
     """TextPayload is a class responsible for handling text outgoing payloads for the Gupshup API."""
 
-    text: str
+    body: str
 
     @property
     def type_text(self):

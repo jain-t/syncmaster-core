@@ -16,11 +16,13 @@ def _gupshup_make_text_payload():
     "outgoing_payload" : {
         "payload" :{
                   "type" : "text",
-                  "text" : "Hi",        
+                  "body" : "Hi",        
                   },
               },
     "payload_type": "text"   
     }
+
+    
 
     return payload
 
@@ -41,4 +43,15 @@ def test_agent_request_payload():
     print("====4=====")
     print(payload)
     assert agent_request_payload.to_dict() == payload
+    print("====5=====")
+    output_payload = {
+        "type": "text",
+        "body": "Hi",
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": None,
+    }
+    print(agent_request_payload.payload.payload)
+    assert agent_request_payload.payload.payload == output_payload
+
 

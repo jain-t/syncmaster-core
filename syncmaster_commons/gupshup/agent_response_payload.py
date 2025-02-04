@@ -91,7 +91,12 @@ class AgentResponsePayloadGupshup(ThirdPartyOutgoingPayload):
        
         payload = self.outgoing_payload.payload
         output_dict = payload.to_dict() 
-        output_dict["payload_type"] = self.payload_type
+        output_dict["type"] = self.payload_type
+        output_dict["to"] = self.to
+        output_dict["messaging_product"] = self.messaging_product
+        output_dict["recipient_type"] = self.recipient_type
+        if not self.type == "text":
+            raise NotImplementedError("Only text type is supported")
         return output_dict
 
     @classmethod
@@ -108,10 +113,10 @@ class AgentResponsePayloadGupshup(ThirdPartyOutgoingPayload):
         """
         
         outgoing_payload = GupshupOutgoingPayload.from_dict(payload_dict["outgoing_payload"])
-        print(outgoing_payload)        
+        print(outgoing_payload)
         return cls(
             outgoing_payload=outgoing_payload,
-            task_id=payload_dict["task_id"]            
+            task_id=payload_dict["task_id"]
             
         )
     
