@@ -90,8 +90,11 @@ class AgentResponsePayloadGupshup(ThirdPartyOutgoingPayload):
         """
        
         payload = self.outgoing_payload.payload
-        output_dict = payload.to_dict() 
+        output_dict = {} 
         output_dict["type"] = self.payload_type
+        _payload_dict = payload.to_dict()
+        _payload_dict.pop("type")
+        output_dict[self.payload_type] = _payload_dict
         output_dict["to"] = self.to
         output_dict["messaging_product"] = self.messaging_product
         output_dict["recipient_type"] = self.recipient_type

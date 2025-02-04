@@ -46,7 +46,9 @@ def test_agent_request_payload():
     print("====5=====")
     output_payload = {
         "type": "text",
-        "body": "Hi",
+        "text"  : {
+                  "body" : "Hi",        
+                  },        
         "messaging_product": "whatsapp",
         "recipient_type": "individual",
         "to": None,
