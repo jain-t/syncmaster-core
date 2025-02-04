@@ -8,6 +8,10 @@ from syncmaster_commons.gupshup.agent_response_payload import \
 def _gupshup_make_text_payload():
     payload = {
     "task_id": "1",
+    "messaging_product": "whatsapp",
+    "recipient_type": "individual",
+    "type": "text",
+    "to": None,
     "app_name": "WhatsApp",
     "outgoing_payload" : {
         "payload" :{

@@ -1,5 +1,5 @@
 
-from typing import override
+from typing import Optional, override
 
 from syncmaster_commons.abstract.baseclass import ThirdPartyOutgoingPayload
 from syncmaster_commons.gupshup.outgoing_payloads import GupshupOutgoingPayload
@@ -20,6 +20,29 @@ class AgentResponsePayloadGupshup(ThirdPartyOutgoingPayload):
         from_dict(cls, payload_dict: dict) -> "AgentResponsePayloadGupshup":
     """
     outgoing_payload: GupshupOutgoingPayload
+    to: Optional[str] = None
+
+    @property
+    def messaging_product(self) -> str:
+        """
+        Returns the messaging product of the outgoing payload.
+
+        :return: The messaging product.
+        :rtype: str
+        """
+        return "whatsapp"
+    
+    @property
+    def recipient_type(self) -> str:
+        """
+        Returns the recipient type of the outgoing payload.
+
+        :return: The recipient type.
+        :rtype: str
+        """
+        return "individual"
+    
+    
     
     @property
     def app_name(self) -> str:
@@ -44,6 +67,18 @@ class AgentResponsePayloadGupshup(ThirdPartyOutgoingPayload):
         """
         return self.outgoing_payload.payload.type_text
     
+    @property
+    def type(self) -> str:
+        """
+        Returns the type of the outgoing payload.
+
+        :return: The type of the outgoing payload.
+        :rtype: str
+        """
+        return self.payload_type
+
+
+
     @property
     def payload(self) -> dict:
         """
@@ -79,3 +114,20 @@ class AgentResponsePayloadGupshup(ThirdPartyOutgoingPayload):
             task_id=payload_dict["task_id"]            
             
         )
+    
+    @override
+    def to_dict(self):
+        """
+        Converts the object to a dictionary representation.
+        This method converts the object to a dictionary representation, including the `type`,
+        `recipient_type`, `messaging_product`, and `to` fields.
+        Returns:
+            dict: A dictionary containing the object's data, including the type,
+                  recipient_type, messaging_product, and to fields.
+        """
+        _d:dict  = super().to_dict()
+        _d["type"] = self.type
+        _d["recipient_type"] = self.recipient_type
+        _d["messaging_product"] = self.messaging_product
+        _d["to"] = self.to
+        return _d

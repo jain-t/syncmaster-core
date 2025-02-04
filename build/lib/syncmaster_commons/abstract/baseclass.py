@@ -271,6 +271,7 @@ class ThirdPartyOutgoingPayload(SMBaseClass):
     def to_dict(self) -> dict:
         """
         Converts the object to a dictionary representation.
+        Appends the `app_name` and `payload_type` to the dictionary.
 
         Returns:
             dict: A dictionary containing the key-value pairs representing the object's attributes.
