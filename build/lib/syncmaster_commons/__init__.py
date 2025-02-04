@@ -1,4 +1,4 @@
-__version__ = "0.0.40"
+__version__ = "0.0.41"
 
 from .abstract import SMBaseClass
 from .agents import AgentRequestPayload, AgentResponsePayload
