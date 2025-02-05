@@ -103,7 +103,7 @@ class AgentResponsePayloadGupshup(ThirdPartyOutgoingPayload):
         return output_dict
 
     @classmethod
-    def from_dict(cls, payload_dict: dict) -> "AgentResponsePayloadGupshup":
+    def from_dict(cls, payload_dict: dict, task_id: str) -> "AgentResponsePayloadGupshup":
         """
         Creates an instance of AgentResponsePayloadGupshup from a dictionary.
         Args:
@@ -115,12 +115,12 @@ class AgentResponsePayloadGupshup(ThirdPartyOutgoingPayload):
             KeyError: If 'task_id', 'user_id', or 'org_id' keys are missing in the payload_dict.
         """
         
-        outgoing_payload = GupshupOutgoingPayload.from_dict(payload_dict["outgoing_payload"])
+        outgoing_payload = GupshupOutgoingPayload.from_dict(payload_dict)
+        print("###")
         print(outgoing_payload)
         return cls(
             outgoing_payload=outgoing_payload,
-            task_id=payload_dict["task_id"]
-            
+            task_id=task_id
         )
     
     @override
