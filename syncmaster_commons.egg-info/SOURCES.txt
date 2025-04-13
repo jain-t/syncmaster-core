@@ -22,6 +22,11 @@ syncmaster_commons/gupshup/agent_response_payload.py
 syncmaster_commons/gupshup/atomic_incoming_payload.py
 syncmaster_commons/gupshup/incoming_payloads.py
 syncmaster_commons/gupshup/outgoing_payloads.py
+syncmaster_commons/translator/__init__.py
+syncmaster_commons/translator/base.py
+syncmaster_commons/translator/parsers.py
+syncmaster_commons/translator/prompt.py
 tests/__init__.py
 tests/test_incoming_payload.py
 tests/test_outgoing_payload.py
+tests/test_translator.py

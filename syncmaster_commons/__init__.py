@@ -1,4 +1,4 @@
-__version__ = "0.0.36"
+__version__ = "0.0.37"
 
 from .abstract import SMBaseClass
 from .agents import AgentRequestPayload, AgentResponsePayload
@@ -7,6 +7,7 @@ from .gupshup import (AgentResponsePayloadGupshup, AudioPayload,
                       ImagePayload, LocationPayload, TextPayload, VideoPayload)
 from .keys import KEYS
 from .task_names import TaskNames
+from .translator import Translator
 
 __all__ = [
     "AgentRequestPayload",
@@ -22,5 +23,6 @@ __all__ = [
     "VideoPayload",
     "AudioPayload",
     "LocationPayload",
+    "Translator",
 
 ]
