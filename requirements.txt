@@ -1,3 +1,5 @@
 pydantic
 setuptools
 pytest
+langchain
+langchain-openai
