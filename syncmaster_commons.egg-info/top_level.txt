@@ -1,2 +1,0 @@
-syncmaster_commons
-tests

@@ -103,6 +103,7 @@ class ThirdPartyPayloadConsumedByAgent(SMBaseClass):
         user_id (str): The ID of the user.
         org_id (int): The ID of the organization.
         org_name (str): The name of the organization.
+        agent_name (str): The name of the agent.
     Property:
         app_name (str): Abstract property that should return the name of the application.
         _payload_type (str): Abstract property that should return the type of the payload.
@@ -114,6 +115,7 @@ class ThirdPartyPayloadConsumedByAgent(SMBaseClass):
     user_id: str
     org_id: int
     org_name: str
+    agent_name: str
 
     
     @property
@@ -145,7 +147,9 @@ class ThirdPartyPayloadConsumedByAgent(SMBaseClass):
     @property
     def payload(self):
         """
-        Returns the payload data.
+        Returns the payload data that contains necessary information for the task.
+        We primarily use this method that is consumed by the streamer.
+
 
         This method should be implemented by subclasses to provide the
         specific payload data.
@@ -267,6 +271,7 @@ class ThirdPartyOutgoingPayload(SMBaseClass):
     def to_dict(self) -> dict:
         """
         Converts the object to a dictionary representation.
+        Appends the `app_name` and `payload_type` to the dictionary.
 
         Returns:
             dict: A dictionary containing the key-value pairs representing the object's attributes.

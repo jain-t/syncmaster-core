@@ -71,7 +71,13 @@ class AgentResponsePayload(SMBaseClass):
         
         app_name = response_payload.get("app_name", None)
         if client == "WhatsApp" or app_name == "WhatsApp":
-            payload = AgentResponsePayloadGupshup.from_dict(response_payload) 
+            if 'outgoing_payload' in response_payload:
+                _payload = response_payload['outgoing_payload']                
+            else:
+                _payload = response_payload    
+            # print("^^^^")
+            # print(response_payload)
+            payload = AgentResponsePayloadGupshup.from_dict(_payload, task_id=response_payload.get("task_id")) 
         else:
             raise ValueError(f"Client {client} is not supported.")
         return cls(

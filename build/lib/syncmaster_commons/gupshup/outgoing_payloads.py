@@ -55,7 +55,7 @@ class PayloadGenerator(SMBaseClass):
 class TextPayload(PayloadGenerator):
     """TextPayload is a class responsible for handling text outgoing payloads for the Gupshup API."""
 
-    text: str
+    body: str
 
     @property
     def type_text(self):
@@ -161,7 +161,7 @@ class GupshupOutgoingPayload(OutgoingPayload):
             GupshupOutgoingPayload: The GupshupOutgoingPayload object created from the dictionary.
         """
         # print(payload_dict, "<----")
-        payload_dict = payload_dict.get("payload")
+        payload_dict = payload_dict.get("payload") if "payload" in payload_dict else payload_dict
         payload_type = payload_dict.get("type")
         if payload_type == "text":
             return cls(payload=TextPayload.from_dict(payload_dict))
